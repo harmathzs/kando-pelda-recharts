@@ -3,6 +3,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Container, Navbar, Nav, Row, Col, Card } from "react-bootstrap";
+import { LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Shared Layout with fixed top blue navbar
@@ -52,7 +53,7 @@ function ChartPage({ title, codeContent, chartType, chartData }) {
             <Card.Body>
               {/* Placeholder for chart */}
               <div style={{height: "300px", border: "1px solid #ccc"}}>
-                TODO - chart will go here
+                {chartType=='line' && <LineChart responsive data={['TODO']} />}
               </div>
             </Card.Body>
           </Card>
