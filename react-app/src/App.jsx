@@ -1,3 +1,5 @@
+/* TODO - npm install recharts bootstrap react-bootstrap */
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Container, Navbar, Nav, Row, Col, Card } from "react-bootstrap";
@@ -30,8 +32,8 @@ function Layout({ children }) {
   );
 }
 
-// Template subpage with code and chart cards
-function ChartPage({ title, codeContent }) {
+// TODO - outsource template subpage with code and chart cards
+function ChartPage({ title, codeContent, chartType, chartData }) {
   return (
     <>
       <h2>{title}</h2>
@@ -49,7 +51,9 @@ function ChartPage({ title, codeContent }) {
             <Card.Header>Chart</Card.Header>
             <Card.Body>
               {/* Placeholder for chart */}
-              <div style={{height: "300px", border: "1px solid #ccc"}}>Chart will go here</div>
+              <div style={{height: "300px", border: "1px solid #ccc"}}>
+                TODO - chart will go here
+              </div>
             </Card.Body>
           </Card>
         </Col>
@@ -58,24 +62,48 @@ function ChartPage({ title, codeContent }) {
   );
 }
 
+// TODO - outsource component
 function Line() {
-  const sampleCode = `// Sample Line chart code snippet\nconst data = [...];`;
-  return <ChartPage title="Line Chart" codeContent={sampleCode} />;
+  const chartData = {
+    title: 'Snail position', 
+    positions: [
+      ['1h', 10],
+      ['2h', 30],
+      ['3h', 20],
+      ['4h', 40],
+    ]
+  }
+  const sampleCode = `Line chart data JSON: \n${JSON.stringify(chartData)}`;
+  return <ChartPage title="Line Chart" codeContent={sampleCode} chartType="line" chartData={chartData} />;
 }
 
+// TODO - outsource component
 function Bar() {
-  const sampleCode = `// Sample Bar chart code snippet\nconst data = [...];`;
-  return <ChartPage title="Bar Chart" codeContent={sampleCode} />;
+  const chartData = {
+    title: 'X vs O', 
+    wins: {x: 7, y: 5}
+  }
+  const sampleCode = `Bar chart data JSON: \n${JSON.stringify(chartData)}`;
+  return <ChartPage title="Bar Chart" codeContent={sampleCode} chartType="bar" chartData={chartData} />;
 }
 
+// TODO - outsource component
 function Pie() {
-  const sampleCode = `// Sample Pie chart code snippet\nconst data = [...];`;
-  return <ChartPage title="Pie Chart" codeContent={sampleCode} />;
+  const chartData = {
+    title: 'X vs O', 
+    wins: {x: 7, y: 5}
+  }
+  const sampleCode = `Pie chart data JSON: \n${JSON.stringify(chartData)}`;
+  return <ChartPage title="Pie Chart" codeContent={sampleCode} chartType="pie" chartData={chartData} />;
 }
 
+// TODO - outsource component
 function FunctionPage() {
-  const sampleCode = `// Sample function or formula code snippet\nfunction f(x) { return x * x; }`;
-  return <ChartPage title="Function" codeContent={sampleCode} />;
+  const sampleCode = `Function formula: \nf(x)= (sin(x) +2x) /x`;
+  const chartData = {
+    f: x => (Math.sin(x) +2.0*x) /x
+  }
+  return <ChartPage title="Function" codeContent={sampleCode} chartType="function" chartData={chartData} />;
 }
 
 export default function App() {
