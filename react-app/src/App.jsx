@@ -3,7 +3,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Container, Navbar, Nav, Row, Col, Card } from "react-bootstrap";
-import { LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Shared Layout with fixed top blue navbar
@@ -53,7 +53,18 @@ function ChartPage({ title, codeContent, chartType, chartData }) {
             <Card.Body>
               {/* Placeholder for chart */}
               <div style={{height: "300px", border: "1px solid #ccc"}}>
-                {chartType=='line' && <LineChart responsive data={['TODO']} />}
+                {chartType=='line' && <LineChart 
+                  responsive 
+                  data={chartData}
+                  style={{ width: '100%', maxWidth: '700px', height: '100%', maxHeight: '70vh', aspectRatio: 1.618}}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis width="auto" />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
+                  </LineChart>}
               </div>
             </Card.Body>
           </Card>
@@ -64,16 +75,13 @@ function ChartPage({ title, codeContent, chartType, chartData }) {
 }
 
 // TODO - outsource component
-function Line() {
-  const chartData = {
-    title: 'Snail position', 
-    positions: [
-      ['1h', 10],
-      ['2h', 30],
-      ['3h', 20],
-      ['4h', 40],
-    ]
-  }
+function LinePage() {
+  const chartData = [
+    {name: '1h', value: 10},
+    {name: '2h', value: 30},
+    {name: '3h', value: 20},
+    {name: '4h', value: 40},
+  ]
   const sampleCode = `Line chart data JSON: \n${JSON.stringify(chartData)}`;
   return <ChartPage title="Line Chart" codeContent={sampleCode} chartType="line" chartData={chartData} />;
 }
@@ -112,11 +120,11 @@ export default function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/line" element={<Line />} />
+          <Route path="/line" element={<LinePage />} />
           <Route path="/bar" element={<Bar />} />
           <Route path="/pie" element={<Pie />} />
           <Route path="/function" element={<FunctionPage />} />
-          <Route path="*" element={<Line />} /> {/* Default to Line */}
+          <Route path="*" element={<LinePage />} /> {/* Default to Line */}
         </Routes>
       </Layout>
     </Router>
