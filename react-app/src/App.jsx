@@ -3,7 +3,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Container, Navbar, Nav, Row, Col, Card } from "react-bootstrap";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, PieChart, Rectangle, ResponsiveContainer } from 'recharts';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Shared Layout with fixed top blue navbar
@@ -48,11 +48,12 @@ function ChartPage({ title, codeContent, chartType, chartData }) {
           </Card>
         </Col>
         <Col md={6}>
-          <Card className="mb-3">
+          <Card className="mb-3" style={{ height: '350px' }}>
             <Card.Header>Chart</Card.Header>
-            <Card.Body>
+            <Card.Body style={{ height: '100%', padding: '0' }}>
               {/* Placeholder for chart */}
-              <div style={{height: "300px", border: "1px solid #ccc"}}>
+              <div style={{height: "300px", minWidth: 0, minHeight: 0, border: "1px solid #ccc"}}>
+                <ResponsiveContainer width="100%" height="100%">
                 {chartType=='line' && <LineChart 
                   responsive 
                   data={chartData}
@@ -65,6 +66,46 @@ function ChartPage({ title, codeContent, chartType, chartData }) {
                     <Legend />
                     <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
                   </LineChart>}
+
+                  {chartType === 'bar' && 
+                        
+                          <BarChart data={chartData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="value" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+                          </BarChart>
+                        
+                      }  
+
+                  {false && chartType=='pie' && <PieChart 
+                  responsive 
+                  data={chartData}
+                  style={{ width: '100%', maxWidth: '700px', height: '100%', maxHeight: '70vh', aspectRatio: 1.618}}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis width="auto" />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
+                  </PieChart>} 
+
+                  {false && chartType=='function' && <LineChart 
+                  responsive 
+                  data={chartData}
+                  style={{ width: '100%', maxWidth: '700px', height: '100%', maxHeight: '70vh', aspectRatio: 1.618}}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis width="auto" />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
+                  </LineChart>}   
+                </ResponsiveContainer>            
               </div>
             </Card.Body>
           </Card>
@@ -88,20 +129,24 @@ function LinePage() {
 
 // TODO - outsource component
 function Bar() {
-  const chartData = {
-    title: 'X vs O', 
-    wins: {x: 7, y: 5}
-  }
+  const chartData = [
+    {name: '1h', value: 10},
+    {name: '2h', value: 30},
+    {name: '3h', value: 20},
+    {name: '4h', value: 40},
+  ]
   const sampleCode = `Bar chart data JSON: \n${JSON.stringify(chartData)}`;
   return <ChartPage title="Bar Chart" codeContent={sampleCode} chartType="bar" chartData={chartData} />;
 }
 
 // TODO - outsource component
 function Pie() {
-  const chartData = {
-    title: 'X vs O', 
-    wins: {x: 7, y: 5}
-  }
+  const chartData = [
+    {name: '1h', value: 10},
+    {name: '2h', value: 30},
+    {name: '3h', value: 20},
+    {name: '4h', value: 40},
+  ]
   const sampleCode = `Pie chart data JSON: \n${JSON.stringify(chartData)}`;
   return <ChartPage title="Pie Chart" codeContent={sampleCode} chartType="pie" chartData={chartData} />;
 }
